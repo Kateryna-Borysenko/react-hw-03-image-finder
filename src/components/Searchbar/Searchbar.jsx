@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
 import { ImSearch } from 'react-icons/im';
+import s from './Searchbar.module.css';
 
 class SearchBar extends Component {
   static propTypes = {
@@ -34,16 +35,16 @@ class SearchBar extends Component {
     const { inputValue } = this.state;
 
     return (
-      <header className="Searchbar">
-        <form onSubmit={this.handleSubmit} className="SearchForm">
-          <button type="submit" className="SearchForm-button">
-            <span className="SearchForm-button-label">
+      <header className={s.searchbar}>
+        <form onSubmit={this.handleSubmit} className={s.searchForm}>
+          <button type="submit" className={s.searchFormButton}>
+            <span className={s.searchFormButtonLabel}>
               <ImSearch />
             </span>
           </button>
 
           <input
-            className="SearchForm-input"
+            className={s.searchFormInput}
             type="text"
             value={inputValue}
             autoComplete="off"

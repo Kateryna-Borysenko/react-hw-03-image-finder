@@ -10,6 +10,7 @@ import Button from 'components/Button/Button';
 import Spinner from 'components/Loader/Loader';
 import Modal from 'components/Modal/Modal';
 import Loader from 'react-loader-spinner';
+import 'App.module.css';
 
 export class App extends Component {
   state = {
