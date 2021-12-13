@@ -6,6 +6,7 @@ import api from 'services/api';
 
 import ImageGallery from 'components/ImageGallery/ImageGallery';
 import Button from 'components/Button/Button';
+import Spinner from 'components/Loader/Loader';
 
 export class App extends Component {
   state = {
@@ -13,6 +14,7 @@ export class App extends Component {
     images: [],
     currentPage: 1,
     error: null,
+    isLoading: false,
   };
   onSearchHandle = query => {
     this.setState({
@@ -32,6 +34,8 @@ export class App extends Component {
       searchQuery,
       currentPage,
     };
+    //при запросе влк лоудер
+    this.setState({ isLoading: true });
 
     api
       .fetchImages(options)
@@ -56,6 +60,10 @@ export class App extends Component {
       .catch(error => {
         this.setState({ error });
         toast.error('Ошибка');
+      })
+      .finally(() => {
+        //без файнали не отключается spinner
+        return this.setState({ isLoading: false });
       });
   };
 
@@ -69,12 +77,15 @@ export class App extends Component {
   }
 
   render() {
-    const { images } = this.state;
+    const { images, isLoading } = this.state;
+    //показать кнопку только в том случае, если длина  массива > 0 и нет загрузки
+    const shouldRenderLoadMoreBtn = images.length > 0 && !isLoading;
     return (
       <div>
         <SearchBar onSubmit={this.onSearchHandle} />
         <ImageGallery images={images} />
-        <Button onClick={this.fetchImages} />
+        {isLoading && <Spinner />}
+        {shouldRenderLoadMoreBtn && <Button onClick={this.fetchImages} />}
         <ToastContainer autoClose={3000} />
       </div>
     );
