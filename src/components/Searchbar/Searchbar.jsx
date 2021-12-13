@@ -57,4 +57,15 @@ class SearchBar extends Component {
   }
 }
 
+SearchBar.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.object),
+  currentPage: PropTypes.number,
+  searchQuery: PropTypes.string,
+  isLoading: PropTypes.bool,
+  error: PropTypes.object,
+  showModal: PropTypes.bool,
+  bigImageUrl: PropTypes.string,
+  imageStatus: PropTypes.string,
+};
+
 export default SearchBar;

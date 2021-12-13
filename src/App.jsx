@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import SearchBar from 'components/Searchbar/Searchbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -126,5 +127,16 @@ export class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  searchQuery: PropTypes.string,
+  images: PropTypes.arrayOf(PropTypes.object),
+  currentPage: PropTypes.number,
+  isLoading: PropTypes.bool,
+  error: PropTypes.object,
+  showModal: PropTypes.bool,
+  bigImageUrl: PropTypes.string,
+  imageStatus: PropTypes.string,
+};
 
 export default App;
