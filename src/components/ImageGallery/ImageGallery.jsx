@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
 const ImageGallery = ({ images }) => (
-  <ul className="ImageGallery">
+  <ul className="">
     <ImageGalleryItem images={images} />
   </ul>
 );

@@ -8,4 +8,5 @@ const fetchImages = ({ searchQuery = '', currentPage = 1 }) => {
   return axios.get(url);
 };
 
-export default fetchImages;
+// eslint-disable-next-line
+export default { fetchImages };
