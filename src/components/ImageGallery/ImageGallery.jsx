@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 
-const ImageGallery = ({ images }) => (
-  <ul className="">
-    <ImageGalleryItem images={images} />
+const ImageGallery = ({ images, onClick }) => (
+  <ul className="ImageGallery">
+    <ImageGalleryItem images={images} onClick={onClick} />
   </ul>
 );
 

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import SearchBar from 'components/Searchbar/Searchbar';
-import { ToastContainer, toast } from 'react-toastify'; //библиотека
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from 'services/api';
 
 import ImageGallery from 'components/ImageGallery/ImageGallery';
 import Button from 'components/Button/Button';
 import Spinner from 'components/Loader/Loader';
+import Modal from 'components/Modal/Modal';
+import Loader from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
@@ -15,6 +17,9 @@ export class App extends Component {
     currentPage: 1,
     error: null,
     isLoading: false,
+    showModal: false,
+    bigImageUrl: '',
+    imageStatus: 'loading',
   };
   onSearchHandle = query => {
     this.setState({
@@ -23,10 +28,10 @@ export class App extends Component {
       images: [],
       error: null,
     });
-    console.log(query);
-    console.log(api);
+    // console.log(query);
+    // console.log(api);
   };
-  ////////////////////////////////////////
+
   //делаю запрос
   fetchImages = () => {
     const { currentPage, searchQuery } = this.state;
@@ -67,6 +72,26 @@ export class App extends Component {
       });
   };
 
+  //Modal start
+
+  onImageClick = url => {
+    this.setState({ bigImageUrl: url });
+    this.toggleModal();
+    this.setState({ imageStatus: 'loading' });
+  };
+
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
+  onImageLoaded = () => {
+    this.setState({ imageStatus: 'loaded' });
+  };
+
+  //Modal end
+
   // если прошлый запрос не равен текущему, то отправляем запрос
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
@@ -77,13 +102,23 @@ export class App extends Component {
   }
 
   render() {
-    const { images, isLoading } = this.state;
+    const { images, isLoading, showModal, bigImageUrl, imageStatus } =
+      this.state;
     //показать кнопку только в том случае, если длина  массива > 0 и нет загрузки
     const shouldRenderLoadMoreBtn = images.length > 0 && !isLoading;
     return (
       <div>
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            {imageStatus === 'loading' && (
+              <Loader type="ThreeDots" color="#fff" height={80} width={80} />
+            )}
+            <img src={bigImageUrl} alt="" onLoad={this.onImageLoaded} />
+          </Modal>
+        )}
+
         <SearchBar onSubmit={this.onSearchHandle} />
-        <ImageGallery images={images} />
+        <ImageGallery images={images} onClick={this.onImageClick} />
         {isLoading && <Spinner />}
         {shouldRenderLoadMoreBtn && <Button onClick={this.fetchImages} />}
         <ToastContainer autoClose={3000} />
