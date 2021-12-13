@@ -5,18 +5,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import api from 'services/api';
 
 import ImageGallery from 'components/ImageGallery/ImageGallery';
+import Button from 'components/Button/Button';
 
 export class App extends Component {
   state = {
     searchQuery: '',
     images: [],
     currentPage: 1,
+    error: null,
   };
   onSearchHandle = query => {
     this.setState({
       searchQuery: query,
       currentPage: 1,
       images: [],
+      error: null,
     });
     console.log(query);
     console.log(api);
@@ -65,31 +68,13 @@ export class App extends Component {
     }
   }
 
-  //////////////////////////////////
-  // state = {
-  //   images: [],
-  // };
-  // componentDidMount() {
-  //   const BASE_URL = 'https://pixabay.com/api';
-  //   const API_KEY = '24447293-d3f0d6bbd906e1eb5560775ff';
-  //   const searchQuery = 'cat';
-  //   const currentPage = 1;
-  //   fetch(
-  //     `${BASE_URL}/?image_type=photo&orientation=horizontal&q=${searchQuery}&page=${currentPage}&per_page=12&key=${API_KEY}`,
-  //   )
-  //     .then(res => res.json())
-  //     .then(res => res.hits)
-  //     .then(images => this.setState({ images }));
-  // }
-  //////////////////////////////////
-
   render() {
     const { images } = this.state;
     return (
       <div>
         <SearchBar onSubmit={this.onSearchHandle} />
         <ImageGallery images={images} />
-        <h1>Hello!</h1>
+        <Button onClick={this.fetchImages} />
         <ToastContainer autoClose={3000} />
       </div>
     );
